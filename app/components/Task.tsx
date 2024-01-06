@@ -5,7 +5,7 @@ import { FaEdit } from "react-icons/fa";
 import { FaTrash } from "react-icons/fa6";
 import Modal from './Modal';
 import { useRouter } from 'next/navigation';
-import { editTodo } from '@/api';
+import { deleteTodo, editTodo } from '@/api';
 interface TaskProps {
   task: ITask;
 }
@@ -26,6 +26,12 @@ const Task: React.FC<TaskProps> = ( { task } ) => {
     setTaskToEdit("");
     setOpenModalEdit(false);
     router.refresh();
+  };
+
+  const handleDeleteTask = async (id: string) => {
+    await deleteTodo(id);
+    setOpenModalDelete(false);
+    router.refresh();
   }
 
   return (
@@ -44,7 +50,15 @@ const Task: React.FC<TaskProps> = ( { task } ) => {
           </div>
         </form>
     </Modal>
-    <FaTrash cursor="pointer" size={20} />
+    <FaTrash onClick={() => setOpenModalDelete(true)} cursor="pointer" size={20} />
+    <Modal modalOpen={openModalDelete} setModalOpen={setOpenModalDelete}>
+      <h3 className='text-lg'>have you already done the task?</h3>
+      <div className='modal-action'>
+        <button
+        onClick={() => handleDeleteTask(task.id)}
+        className='btn'>yes</button>
+      </div>
+    </Modal>
     </td>
     </tr>
   );
