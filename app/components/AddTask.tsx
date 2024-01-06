@@ -10,7 +10,9 @@ const AddTask = () => {
       <button onClick={() => setModalOpen(true)} className='btn btn-primary w-full'>Add new task
       <FaPlus /></button>
 
-      <Modal modalOpen={modalOpen} setModalOpen={setModalOpen}/>
+      <Modal modalOpen={modalOpen} setModalOpen={setModalOpen}>
+        modal for adding the task
+      </Modal>
     </div>
   )
 }
