@@ -2,14 +2,21 @@
 import React, { FormEventHandler, useState } from 'react'
 import { FaPlus } from "react-icons/fa"
 import Modal from './Modal'
+import { addTodo } from '@/api';
 
 const AddTask = () => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
-  const [newTask, addNewTask] = useState<string>('');
-  const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
+  const [newTaskValue, setNewTaskValue] = useState<string>('');
+
+  const handleSubmit: FormEventHandler<HTMLFormElement> =
+  async (e) => {
     e.preventDefault();
-    console.log(newTask);
-    addNewTask("");
+    await addTodo({
+      id: "3",
+      text: newTaskValue,
+    })
+    setNewTaskValue("");
+    setModalOpen(false);
   }
   return (
     <div>
@@ -22,7 +29,7 @@ const AddTask = () => {
             add new task
           </h3>
           <div className='modal-action'>
-          <input value={newTask} onChange={e => addNewTask(e.target.value)} type="text" placeholder="what are you going to do?" className="input input-bordered w-full" />
+          <input value={newTaskValue} onChange={e => setNewTaskValue(e.target.value)} type="text" placeholder="what are you going to do?" className="input input-bordered w-full" />
           <button type="submit" className='btn'>add</button>
           </div>
         </form>
